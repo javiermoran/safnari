@@ -19,6 +19,10 @@ app.use(`${base}/collections`, routes.collections);
 app.use(`${base}/types`, routes.types);
 app.use(`${base}/items`, routes.items);
 
+app.get('*', function(request, response, next) {
+  response.sendfile(__dirname + '/public/index.html');
+});
+
 app.listen(process.env.PORT, () => {
-  console.log('Listening on port 3000');
+  console.log(`Listening on port ${process.env.PORT}`);
 });
