@@ -42,11 +42,11 @@ routes.post('/token', (req, res) => {
         res.send({ token });
       });
     }).catch((e) => { 
-      res.status(400).send(e);
+      res.status(404).send(e);
     });
 
   }).catch((e) => {
-    res.status(400).send(e);
+    res.status(404).send(e);
   });
 });
 
