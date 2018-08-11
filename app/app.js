@@ -10,11 +10,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors);
 
-app.use('/version', routes.version);
-app.use('/users', routes.users);
-app.use('/collections', routes.collections);
-app.use('/types', routes.types);
-app.use('/items', routes.items);
+const base = '/api';
+app.use(`${base}/version`, routes.version);
+app.use(`${base}/users`, routes.users);
+app.use(`${base}/collections`, routes.collections);
+app.use(`${base}/types`, routes.types);
+app.use(`${base}/items`, routes.items);
 
 app.listen(process.env.PORT, () => {
   console.log('Listening on port 3000');
