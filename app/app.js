@@ -16,6 +16,6 @@ app.use('/collections', routes.collections);
 app.use('/types', routes.types);
 app.use('/items', routes.items);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
   console.log('Listening on port 3000');
 });
