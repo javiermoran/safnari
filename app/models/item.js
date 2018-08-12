@@ -29,6 +29,7 @@ const ItemSchema = mongoose.Schema({
   type: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: 'Type'
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,
@@ -36,7 +37,8 @@ const ItemSchema = mongoose.Schema({
   },
   coll: {
     type: mongoose.Schema.Types.ObjectId,
-    required: false
+    required: false,
+    ref: 'Collection'
   },
   tags: [mongoose.Schema.Types.ObjectId]
 });

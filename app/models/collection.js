@@ -5,7 +5,13 @@ const collectionSchema = mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    minlenght: 1
+    minlenght: 1,
+    unique: true
+  },
+  type: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Type'
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,
