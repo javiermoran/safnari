@@ -27,9 +27,15 @@ routes.post('/', auth, (req, res) => {
 
 routes.get('/', auth, (req, res) => {
   const creator = req.user._id;
+  const coll = req.query.collection;
+  const query = {creator, coll};
 
-  Item.find({ creator }).count().then((total) => {
-    Item.find({ creator }).then((data) => {
+  if(!coll) {
+    delete query.coll;
+  }
+
+  Item.find(query).countDocuments().then((total) => {
+    Item.find(query).then((data) => {
       res.send({ total, data });
     });
   }).catch((e) => {
