@@ -21,6 +21,7 @@ const ItemSchema = mongoose.Schema({
     required: false
   },
   publisher: string,
+  artist: string,
   format: string,
   picture: string,
   created: {

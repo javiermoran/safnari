@@ -7,8 +7,19 @@ import _ from 'lodash';
 const routes = Router();
 
 routes.post('/', auth, (req, res) => {
-  const { title, number, publisher, format, picture, type, coll, tags } = req.body;
-  const body = { title, number, publisher, format, picture, type, coll, tags };
+  const { title, number, publisher, artist, format, picture, type, coll, tags } = req.body;
+
+  const body = { 
+    title, 
+    number, 
+    publisher, 
+    artist, 
+    format, 
+    picture, 
+    type, 
+    coll, 
+    tags 
+  };
 
   body.creator = req.user._id;
 
@@ -35,9 +46,12 @@ routes.get('/', auth, (req, res) => {
   }
 
   Item.find(query).countDocuments().then((total) => {
-    Item.find(query).then((data) => {
-      res.send({ total, data });
-    });
+    Item.find(query)
+      .populate('type')
+      .populate('coll')
+      .then((data) => {
+        res.send({ total, data });
+      });
   }).catch((e) => {
     res.status(400).send(e);
   });
