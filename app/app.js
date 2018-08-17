@@ -20,7 +20,7 @@ app.use(`${base}/types`, routes.types);
 app.use(`${base}/items`, routes.items);
 
 app.get('*', function(req, res, next) {
-  response.sendfile(__dirname + '/public/index.html');
+  res.sendfile(__dirname + '/public/index.html');
 });
 
 app.listen(process.env.PORT, () => {
