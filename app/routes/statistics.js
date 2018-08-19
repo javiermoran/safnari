@@ -22,11 +22,12 @@ routes.get('/counts', auth, (req, res) => {
 });
 
 routes.get('/collections/types', auth, (req, res) => {
+  const creator = req.user._id;
   Collection.getDistinctTypes(req)
     .then((types) => {
       const promises = types.map((typeObj) => {
         const type = typeObj._id;
-        return Collection.find({type}).countDocuments();
+        return Collection.find({type, creator}).countDocuments();
       });
 
       Promise.all(promises)
@@ -42,6 +43,34 @@ routes.get('/collections/types', auth, (req, res) => {
         })
 
     }).catch((e) => {
+      res.status(500).send();
+    })
+});
+
+routes.get('/items/types', auth, (req, res) => {
+  const creator = req.user._id;
+  Item.getDistinctTypes(req)
+    .then((types) => {
+      const promises = types.map((typeObj) => {
+        const type = typeObj._id;
+        return Item.find({type, creator}).countDocuments();
+      });
+
+      Promise.all(promises)
+        .then((result) => {
+          const data = result.map((count, index) => {
+            const { name, description, icon } = types[index];
+            return { name, description, icon, count };
+          });
+
+          res.send(data);
+        }).catch((e) => {
+          console.log(e);
+          res.status(500).send();
+        })
+
+    }).catch((e) => {
+      console.log(e);
       res.status(500).send();
     })
 });

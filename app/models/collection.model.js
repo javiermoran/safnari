@@ -7,7 +7,6 @@ const collectionSchema = mongoose.Schema({
     required: true,
     trim: true,
     minlenght: 1,
-    unique: true
   },
   type: {
     type: mongoose.Schema.Types.ObjectId,

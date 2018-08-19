@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Type from './type.model';
 
 const requiredString = {
   type: String,
@@ -48,5 +49,13 @@ ItemSchema.pre('save', function(next) {
   this.created = new Date().getTime();
   next();
 });
+
+ItemSchema.statics.getDistinctTypes = function(req) {
+  const creator = req.user._id;
+  return this.find({ creator })
+    .distinct('type')
+    .then(types => Promise.all(types.map(type => Type.findById(type))))
+    .catch(e => Promise.reject(e));
+}
 
 export default mongoose.model('Item', ItemSchema);
