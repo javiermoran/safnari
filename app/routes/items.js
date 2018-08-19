@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Item from '../models/item';
+import Item from '../models/item.model';
 import auth from '../middleware/auth';
 import validId from '../middleware/valid-id';
 import _ from 'lodash';

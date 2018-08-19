@@ -18,6 +18,7 @@ app.use(`${base}/users`, routes.users);
 app.use(`${base}/collections`, routes.collections);
 app.use(`${base}/types`, routes.types);
 app.use(`${base}/items`, routes.items);
+app.use(`${base}/statistics`, routes.statistics);
 
 app.get('*', function(req, res, next) {
   res.sendfile(__dirname + '/public/index.html');

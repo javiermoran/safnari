@@ -3,7 +3,7 @@ import { ObjectID } from 'mongodb';
 
 import auth from '../middleware/auth';
 import validId from '../middleware/valid-id';
-import Collection from '../models/collection';
+import Collection from '../models/collection.model';
 
 const routes = Router();
 
