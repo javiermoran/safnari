@@ -28,7 +28,8 @@ function insertDefaults() {
     new Type({ name: 'bgame', description: 'Board Game', icon: 'fa-chess-pawn' }),
     new Type({ name: 'toy', description: 'Toy', icon: 'fa-table-tennis' }),
     new Type({ name: 'vgame', description: 'Videogame', icon: 'fa-gamepad'}),
-    new Type({ name: 'record', description: 'Record', icon: 'fa-compact-disc' })
+    new Type({ name: 'record', description: 'Record', icon: 'fa-compact-disc' }),
+    new Type({ name: 'movie', description: 'Movie', icon: 'fa-film' })
   ];
 
   return Type.insertMany(defaultTypes);

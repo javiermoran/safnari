@@ -1,9 +1,9 @@
-import version from './version';
-import users from './users';
-import collections from './collections';
-import types from './types';
-import items from './items';
-import statistics from './statistics';
+import version from './version.routes';
+import users from './users.routes';
+import collections from './collections.routes';
+import types from './types.routes';
+import items from './items.routes';
+import statistics from './statistics.routes';
 
 export default { 
   version, 
