@@ -30,7 +30,9 @@ routes.get('/', auth, (req, res) => {
       .find({ creator })
       .populate('type')
       .then((data) => {
-        res.send({ total, data });
+        setTimeout(() => {
+          res.send({ total, data });
+        }, 1000);
       });
   }).catch((e) => {
     res.status(500).send();

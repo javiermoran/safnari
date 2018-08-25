@@ -47,6 +47,33 @@ routes.get('/collections/types', auth, (req, res) => {
     })
 });
 
+routes.get('/collections/items', auth, (req, res) => {
+  const creator = req.user._id;
+  Collection
+      .find({ creator })
+      .populate('type')
+      .then((collections) => {
+        const promises = collections.map((collection) => {
+          const coll = collection._id;
+          return Item.find({ creator, coll }).countDocuments();
+        });
+
+        Promise.all(promises)
+          .then((result) => {
+            const total = result.reduce((a, b) => a + b);
+            const data = result.map((count, index) => {
+              const { name } = collections[index];
+              const pct = Math.round((count / total) * 100);
+              return { name, count, pct }; 
+            });
+          
+            res.send({ total, data });
+          }).catch((e) => {
+            res.status(500).send();
+          })
+      });
+});
+
 routes.get('/items/types', auth, (req, res) => {
   const creator = req.user._id;
   Item.getDistinctTypes(req)
@@ -63,7 +90,9 @@ routes.get('/items/types', auth, (req, res) => {
             return { name, description, icon, count };
           });
 
-          res.send(data);
+          const total = data.reduce((a, b) => ({count: a.count + b.count }));
+
+          res.send({ total: total.count, data });
         }).catch((e) => {
           console.log(e);
           res.status(500).send();
