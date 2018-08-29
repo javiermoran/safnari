@@ -70,7 +70,8 @@ routes.get('/:id', [auth, validId], (req, res) => {
 });
 
 routes.patch('/:id', [auth, validId], (req, res) => {
-  const body = _.pick(req.body, ['title', 'number', 'publisher', 'format', 'picture', 'type', 'coll', 'tags']);
+  const fields = ['title', 'number', 'publisher', 'format', 'picture', 'type', 'coll', 'tags', 'artist'];
+  const body = _.pick(req.body, fields);
   const id = req.params.id;
 
   Item.findByIdAndUpdate(id, { $set: body }, { new: true })
