@@ -104,4 +104,37 @@ routes.get('/items/types', auth, (req, res) => {
     })
 });
 
+routes.get('/items/history', auth, (req, res) => {
+  const creator = req.user._id;
+  const today = new Date().getTime();
+  
+  let prev = new Date();
+  prev.setDate(1);
+  prev.setMonth(prev.getMonth() - 1);
+  
+  Item.find({ created: { $gte: prev }, creator: req.user._id })
+    .then((result) => {
+      const groups = result.reduce((groups, item) => {
+        let date = new Date(item.created);
+        date = date.setHours(0,0,0,0);
+
+        if(!groups[date]) {
+          groups[date] = [];
+        }
+
+        groups[date]++;
+        
+        return groups;
+      }, {});
+
+      const data = Object.keys(groups).map((date) => ({ count: groups[date], date }));
+
+      res.status(200).send({ total: data.length, data });
+    }).catch((e) => {
+      res.status(500).send();
+      console.log(e);
+    });
+
+});
+
 export default routes;
