@@ -8,10 +8,10 @@ import Collection from '../models/collection.model';
 const routes = Router();
 
 routes.post('/', auth, (req, res) => {
-  const { name, type } = req.body;
+  const { name, type, parent } = req.body;
   const creator = req.user._id;
 
-  const collection = new Collection({ name, type, creator });
+  const collection = new Collection({ name, type, creator, parent });
   collection.save().then((collection) => {
     if (!collection) {
       return res.status(400).send(e);
@@ -25,10 +25,18 @@ routes.post('/', auth, (req, res) => {
 
 routes.get('/', auth, (req, res) => {
   const creator = req.user._id;
-  Collection.find({ creator }).countDocuments().then((total) => {
+
+  const query = { creator };
+
+  if(req.query.parent) {
+    query['parent'] = req.query.parent;
+  }
+
+  Collection.find(query).countDocuments().then((total) => {
     Collection
-      .find({ creator })
+      .find(query)
       .populate('type')
+      .populate('parent')
       .then((data) => {
         setTimeout(() => {
           res.send({ total, data });
@@ -46,6 +54,7 @@ routes.get('/:id', [auth, validId], (req, res) => {
   Collection
     .findOne({ _id, creator })
     .populate('type')
+    .populate('parent')
     .then((collection) => {
       res.send(collection);
     }).catch((e) => {

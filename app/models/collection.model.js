@@ -13,6 +13,11 @@ const collectionSchema = mongoose.Schema({
     required: true,
     ref: 'Type'
   },
+  parent: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Collection'
+  },
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     required: true
