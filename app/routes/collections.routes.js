@@ -1,5 +1,6 @@
+'use strict';
+
 import { Router } from 'express';
-import { ObjectID } from 'mongodb';
 
 import auth from '../middleware/auth';
 import validId from '../middleware/valid-id';

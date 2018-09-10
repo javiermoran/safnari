@@ -1,3 +1,5 @@
+'use strict';
+
 import { Router } from 'express';
 import User from '../models/user.model';
 import auth from '../middleware/auth';

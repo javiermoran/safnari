@@ -1,3 +1,5 @@
+'use strict';
+
 import version from './version.routes';
 import users from './users.routes';
 import collections from './collections.routes';

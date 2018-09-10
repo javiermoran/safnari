@@ -1,3 +1,5 @@
+'use strict';
+
 import { ObjectID } from 'mongodb';
 
 const validId = (req, res, next) => {

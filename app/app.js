@@ -1,8 +1,11 @@
+'use strict';
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from './middleware/cors';
+import swaggerUi from 'swagger-ui-express';
 
-import mongoose from './db/mongoose';
+import './db/mongoose';
 import routes from './routes';
 
 const app = express();
@@ -20,8 +23,11 @@ app.use(`${base}/types`, routes.types);
 app.use(`${base}/items`, routes.items);
 app.use(`${base}/statistics`, routes.statistics);
 
+const swaggerDocument = require('./docs/swagger.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.get('*', function(req, res, next) {
-  res.sendfile(__dirname + '/public/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 app.listen(process.env.PORT, () => {

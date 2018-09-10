@@ -1,3 +1,5 @@
+'use strict';
+
 import { Router } from 'express';
 import Type from '../models/type.model';
 

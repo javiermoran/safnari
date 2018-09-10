@@ -1,3 +1,5 @@
+'use strict';
+
 import mongoose from 'mongoose';
 import Type from './type.model';
 
@@ -41,6 +43,12 @@ const ItemSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: false,
     ref: 'Collection'
+  },
+  status: {
+    type: String,
+    enum: ['in_collection', 'lent'],
+    required: false,
+    default: 'in_collection'
   },
   tags: [mongoose.Schema.Types.ObjectId]
 });
