@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "npm install",
     "start": "babel-node app/app.js",
     "watch": "babel-watch app/app.js"
   },
