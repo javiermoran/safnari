@@ -17,7 +17,7 @@ const collectionSchema = mongoose.Schema({
   },
   parent: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    required: false,
     ref: 'Collection'
   },
   creator: {
