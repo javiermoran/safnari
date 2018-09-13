@@ -11,8 +11,13 @@ const routes = Router();
 routes.post('/', auth, (req, res) => {
   const { name, type, parent } = req.body;
   const creator = req.user._id;
+  const query = { name, type, creator, parent };
 
-  const collection = new Collection({ name, type, creator, parent });
+  if(parent === '') {
+    quey.parent = { "$exists" : false };
+  }
+
+  const collection = new Collection();
   collection.save().then((collection) => {
     if (!collection) {
       return res.status(400).send(e);
