@@ -11,10 +11,10 @@ const routes = Router();
 routes.post('/', auth, (req, res) => {
   const { name, type, parent } = req.body;
   const creator = req.user._id;
-  const query = { name, type, creator, parent };
+  const query = { name, type, creator };
 
-  if(parent === '') {
-    quey.parent = { "$exists" : false };
+  if(parent) {
+    query.parent = parent;
   }
 
   const collection = new Collection();
@@ -34,8 +34,8 @@ routes.get('/', auth, (req, res) => {
 
   const query = { creator };
 
-  if(req.query.parent) {
-    query['parent'] = req.query.parent;
+  if(parent === '') {
+    quey.parent = { "$exists" : false };
   }
 
   Collection.find(query).countDocuments().then((total) => {
