@@ -34,10 +34,10 @@ routes.get('/', auth, (req, res) => {
 
   const query = { creator };
 
-  if(req.parent === '' || !req.parent) {
+  if(req.query.parent === '' || !req.query.parent) {
     query.parent = { "$exists" : false };
   } else {
-    query.parent = req.parent;
+    query.parent = req.query.parent;
   }
 
   Collection.find(query).countDocuments().then((total) => {
