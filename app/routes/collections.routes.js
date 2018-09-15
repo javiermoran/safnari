@@ -18,7 +18,7 @@ routes.post('/', auth, (req, res) => {
   }
 
   const collection = new Collection();
-  collection.save().then((collection) => {
+  collection.save(query).then((collection) => {
     if (!collection) {
       return res.status(400).send(e);
     }
