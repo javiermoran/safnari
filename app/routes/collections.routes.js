@@ -35,7 +35,7 @@ routes.get('/', auth, (req, res) => {
   const query = { creator };
 
   if(req.parent === '' || !req.parent) {
-    quey.parent = { "$exists" : false };
+    query.parent = { "$exists" : false };
   }
 
   Collection.find(query).countDocuments().then((total) => {
