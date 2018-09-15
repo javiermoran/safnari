@@ -34,7 +34,7 @@ routes.get('/', auth, (req, res) => {
 
   const query = { creator };
 
-  if(parent === '') {
+  if(req.parent === '' || !req.parent) {
     quey.parent = { "$exists" : false };
   }
 
