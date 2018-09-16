@@ -1,10 +1,12 @@
 'use strict';
 
 import { Router } from 'express';
+import _ from 'lodash';
+import sharp from 'sharp'
+
 import Item from '../models/item.model';
 import auth from '../middleware/auth';
 import validId from '../middleware/valid-id';
-import _ from 'lodash';
 
 const routes = Router();
 
@@ -51,8 +53,26 @@ routes.get('/', auth, (req, res) => {
     Item.find(query)
       .populate('type')
       .populate('coll')
-      .then((data) => {
-        res.send({ total, data });
+      .then((items) => {
+        const promises = [];
+        items.forEach((item) => {
+          const uri = item.picture.split(';base64,').pop()
+          const buf = new Buffer(uri,'base64')
+          promises.push(sharp(buf).resize(300).png().toBuffer())
+        });
+
+        Promise.all(promises)
+          .then((images) => {
+            const data = items.map((item, index) => {
+              item.picture = 'data:image/png;base64,' + images[index].toString('base64');
+              return item;
+            });
+
+            res.send({ total, data: items });
+          })
+          .catch((e) => {
+            res.status(400).send(e);        
+          })
       });
   }).catch((e) => {
     res.status(400).send(e);

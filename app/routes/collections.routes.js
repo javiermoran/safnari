@@ -46,9 +46,7 @@ routes.get('/', auth, (req, res) => {
       .populate('type')
       .populate('parent')
       .then((data) => {
-        setTimeout(() => {
-          res.send({ total, data });
-        }, 1000);
+        res.send({ total, data });
       });
   }).catch((e) => {
     res.status(500).send();

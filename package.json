@@ -23,6 +23,8 @@
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
     "mongoose": "^5.2.7",
+    "resize-base64": "^1.0.12",
+    "sharp": "^0.20.8",
     "swagger-ui-express": "^4.0.1",
     "validator": "^10.5.0"
   }
