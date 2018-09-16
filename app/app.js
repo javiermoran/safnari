@@ -4,11 +4,14 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from './middleware/cors';
 import swaggerUi from 'swagger-ui-express';
+import compression from 'compression';
 
 import './db/mongoose';
 import routes from './routes';
 
 const app = express();
+
+app.use(compression());
 
 app.use(express.static(__dirname + '/public'));
 
