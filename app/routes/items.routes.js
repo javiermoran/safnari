@@ -43,6 +43,7 @@ routes.post('/', auth, (req, res) => {
 routes.get('/', auth, (req, res) => {
   const creator = req.user._id;
   const coll = req.query.collection;
+  const thumbs = req.query.thumbs * 1;
   const query = {creator, coll};
 
   if(!coll) {
@@ -55,11 +56,13 @@ routes.get('/', auth, (req, res) => {
       .populate('coll')
       .then((items) => {
         const promises = [];
-        items.forEach((item) => {
-          const uri = item.picture.split(';base64,').pop()
-          const buf = new Buffer(uri,'base64')
-          promises.push(sharp(buf).resize(300).png().toBuffer())
-        });
+
+        if(thumbs) {
+          items.forEach((item) => {
+            const uri = item.picture.split(';base64,').pop()
+            const buf = new Buffer(uri,'base64')
+            promises.push(sharp(buf).resize(thumbs).png().toBuffer())
+          });
 
         Promise.all(promises)
           .then((images) => {
@@ -68,11 +71,14 @@ routes.get('/', auth, (req, res) => {
               return item;
             });
 
-            res.send({ total, data: items });
+            res.send({ total, data });
           })
           .catch((e) => {
             res.status(400).send(e);        
           })
+        } else {
+          res.send({ total, data: items });
+        }
       });
   }).catch((e) => {
     res.status(400).send(e);
