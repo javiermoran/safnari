@@ -406,6 +406,14 @@
         "parent": {
           "type": "string",
           "description": "Parent collection id"
+        },
+        "creator": {
+          "type": "string",
+          "description": "Id of user who created the collection"
+        },
+        "created": {
+          "type": "number",
+          "description": "Date created"
         }
       }
     },
