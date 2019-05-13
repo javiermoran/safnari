@@ -140,7 +140,19 @@
             "in": "query",
             "name": "collection",
             "type": "string",
-            "description": "Collection id to filter by",
+            "description": "Collection id to filter by (using the id in path recomended)\n",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "parent",
+            "description": "Parent id:\n  * none - Only collections without parent\n  * :collectionId - Parent collection id to filter by\n  * If not present or null, all collections will be returned\n",
+            "type": "string",
+            "enum": [
+              "none",
+              ":collectionId",
+              ":null"
+            ],
             "required": false
           }
         ],
@@ -406,6 +418,13 @@
         "parent": {
           "type": "string",
           "description": "Parent collection id"
+        },
+        "breadcrumbs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "Id of an ancestor collection"
+          }
         },
         "creator": {
           "type": "string",

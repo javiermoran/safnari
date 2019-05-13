@@ -24,6 +24,9 @@ const collectionSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true
   },
+  breadcrumbs: [
+    mongoose.Schema.Types.ObjectId
+  ],
   created: {
     type: Number
   }
@@ -39,7 +42,17 @@ collectionSchema.statics.getDistinctTypes = function(req) {
 
 collectionSchema.pre('save', function (next) {
   this.created = new Date().getTime();
-  next();
+  this.breadcrumbs = [];
+  if (this.parent) {
+    this.constructor.findById(this.parent)
+      .then((parentCollection) => {
+        this.breadcrumbs = parentCollection.breadcrumbs;
+        this.breadcrumbs.push(this.parent);
+      })
+      .finally(next);
+  } else {
+    next();
+  }
 });
 
 export default mongoose.model('Collection', collectionSchema);

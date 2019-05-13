@@ -6,7 +6,7 @@ import Type from '../models/type.model';
 const routes = Router();
 
 routes.get('/', (req, res) => {
-  Type.find({}).count().then((count) => {
+  Type.find({}).countDocuments().then((count) => {
     if(count === 0) {
       insertDefaults().then((docs) => {
         res.send({ docs });

@@ -34,15 +34,16 @@ routes.get('/', auth, (req, res) => {
 
   const query = { creator };
 
-  if(req.query.parent === '' || !req.query.parent) {
+  if (req.query.parent === 'none') {
     query.parent = { "$exists" : false };
-  } else {
+  } else if (req.query.parent) {
     query.parent = req.query.parent;
   }
 
   Collection.find(query).countDocuments().then((total) => {
     Collection
       .find(query)
+      .populate('breadcrumbs')
       .populate('type')
       .populate('parent')
       .then((data) => {
