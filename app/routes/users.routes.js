@@ -63,7 +63,14 @@ routes.delete('/token', auth, (req, res) => {
 
 // GET /users/me
 routes.get('/me', auth, (req, res) => {
-  res.send(req.user);
+  User
+    .findById(req.user._id)
+    .populate('settings')
+    .then(me => {
+      res.send(me);
+    }).catch(e => {
+      res.send(req.user);
+    })
 });
 
 export default routes;

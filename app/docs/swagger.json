@@ -64,6 +64,29 @@
         ]
       }
     },
+    "/users/me": {
+      "get": {
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      }
+    },
     "/users/token": {
       "post": {
         "parameters": [

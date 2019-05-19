@@ -5,6 +5,7 @@ import validator from 'validator';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
+import Settings from './settings.model';
 
 dotenv.config();
 
@@ -38,6 +39,10 @@ const UserSchema = mongoose.Schema({
     required: true,
     minlength: 6
   },
+  settings: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Settings'
+  },
   tokens: [{
     access: {
       type: String,
@@ -51,8 +56,9 @@ const UserSchema = mongoose.Schema({
 });
 
 UserSchema.methods.toJSON = function() {
-  const { email, username, picture } = this.toObject(); 
-  return { email, username, picture };
+  const { email, username, picture } = this.toObject();
+  const { darkMode } = this.toObject().settings;
+  return { email, username, picture, settings: { darkMode } };
 };
 
 UserSchema.methods.generateToken = function() {
@@ -99,19 +105,37 @@ UserSchema.statics.findByToken = function(token) {
   });
 };
 
+const createSettings = (model) => {
+  return new Promise((resolve) => {
+    if (!model.settings) {
+      const settings  = new Settings();
+      settings.save().then((settings) => {
+        resolve(settings);
+      }).catch((e) => console.log(e))
+    } else {
+      resolve(null);
+    }
+  });
+}
 
-//Encrypts the password before saving it
-UserSchema.pre('save', function(next) {
-  if(this.isModified('password')) {
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(this.password, salt, (err, hash) => {
-        this.password = hash;
-        next();
+UserSchema.pre('save', function (next) {
+  createSettings(this).then((settings) => {
+    if (settings) {
+      this.settings = settings;
+    }
+
+    //Encrypts the password before saving it
+    if (this.isModified('password')) {
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(this.password, salt, (err, hash) => {
+          this.password = hash;
+          next();
+        });
       });
-    });
-  } else {
-    next();
-  }
+    } else {
+      next();
+    }
+  });
 });
 
 export default mongoose.model('User', UserSchema);
