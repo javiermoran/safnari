@@ -61,7 +61,7 @@ routes.get('/:id', [auth, validId], (req, res) => {
   Collection
     .findOne({ _id, creator })
     .populate('type')
-    .populate('parent')
+    .populate('breadcrumbs')
     .then((collection) => {
       res.send(collection);
     }).catch((e) => {

@@ -118,12 +118,8 @@ routes.patch('/:id', [auth, validId], (req, res) => {
 routes.delete('/:id', [auth, validId], (req, res) => {
   const id = req.params.id;
 
-  Item.findByIdAndRemove(id).then((item) => {
-    if(!item) {
-      res.status(404).send();
-    }
-
-    res.send(item);
+  Item.findByIdAndRemove(id).then(() => {
+    res.status(204).send();
   }).catch((e) => {
     res.status(400).send(e);
   })
