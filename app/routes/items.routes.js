@@ -123,7 +123,7 @@ routes.post('/:id/images', [auth, validId], (req, res) => {
   const pictures = req.body.pictures;
 
   Item.findOne({ _id, creator }).then((item) => {
-    if (!pictures || pictures.lenght == 0) {
+    if (!pictures || pictures.length == 0) {
       res.status(400).send();
     } else {
       const itemPictures = item.pictures.concat(pictures);
