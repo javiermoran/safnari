@@ -90,6 +90,8 @@ routes.get('/:id', [auth, validId], (req, res) => {
   const creator = req.user._id;
 
   Item.findOne({ _id, creator })
+    .populate('type')
+    .populate('coll')
     .then((item) => {
       res.send(item);
     }).catch((e) => {
@@ -98,7 +100,7 @@ routes.get('/:id', [auth, validId], (req, res) => {
 });
 
 routes.patch('/:id', [auth, validId], (req, res) => {
-  const fields = ['title', 'number', 'publisher', 'format', 'picture', 'type', 'coll', 'tags', 'artist'];
+  const fields = ['title', 'number', 'publisher', 'format', 'picture', 'type', 'coll', 'tags', 'artist', 'pictures'];
   const body = _.pick(req.body, fields);
   const id = req.params.id;
 

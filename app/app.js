@@ -25,6 +25,7 @@ app.use(`${base}/users`, routes.users);
 app.use(`${base}/collections`, routes.collections);
 app.use(`${base}/types`, routes.types);
 app.use(`${base}/items`, routes.items);
+app.use(`${base}/tags`, routes.tags);
 app.use(`${base}/statistics`, routes.statistics);
 app.use(`${base}/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

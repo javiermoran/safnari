@@ -50,7 +50,14 @@ const ItemSchema = mongoose.Schema({
     required: false,
     default: 'in_collection'
   },
-  tags: [mongoose.Schema.Types.ObjectId]
+  pictures: {
+    type: [String],
+    required: false
+  },
+  tags: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Tag'
+  }
 });
 
 ItemSchema.pre('save', function(next) {

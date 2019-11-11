@@ -6,6 +6,7 @@ import collections from './collections.routes';
 import types from './types.routes';
 import items from './items.routes';
 import statistics from './statistics.routes';
+import tags from './tags.routes';
 
 export default { 
   version, 
@@ -13,5 +14,6 @@ export default {
   collections, 
   types, 
   items, 
-  statistics 
+  statistics,
+  tags
 };
