@@ -117,6 +117,30 @@ routes.patch('/:id', [auth, validId], (req, res) => {
   });
 });
 
+routes.post('/:id/images', [auth, validId], (req, res) => {
+  const _id = req.params.id;
+  const creator = req.user._id;
+  const pictures = req.body.pictures;
+
+  Item.findOne({ _id, creator }).then((item) => {
+    if (!pictures || pictures.lenght == 0) {
+      res.status(400).send();
+    } else {
+      const itemPictures = item.pictures.concat(pictures);
+      item.pictures = itemPictures;
+
+      Item.update({ _id, creator }, { $set: { pictures: itemPictures }})
+        .then(item => {
+          res.status(200).send(item);
+        }).catch((e) => {
+          res.status(500).send(e);
+        });
+    }
+  }).catch((e) => {
+    res.status(500).send(e);
+  });
+});
+
 routes.delete('/:id', [auth, validId], (req, res) => {
   const id = req.params.id;
 
