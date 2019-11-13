@@ -57,7 +57,7 @@ routes.get('/', auth, (req, res) => {
       .then((items) => {
         const promises = [];
 
-        if(thumbs) {
+        if (thumbs) {
           items.forEach((item) => {
             const uri = item.picture.split(';base64,').pop()
             const buf = new Buffer(uri,'base64')
@@ -129,7 +129,7 @@ routes.post('/:id/images', [auth, validId], (req, res) => {
       const itemPictures = item.pictures.concat(pictures);
       item.pictures = itemPictures;
 
-      Item.update({ _id, creator }, { $set: { pictures: itemPictures }})
+      item.save()
         .then(item => {
           res.status(200).send(item);
         }).catch((e) => {

@@ -21,7 +21,7 @@ routes.post('/', (req, res) => {
 
 // POST /users/token
 routes.post('/token', (req, res) => {
-  const { email, password, username } = req.body;
+  let { email, password, username } = req.body;
 
   if(email && username) {
     return res.status(400).send({
@@ -34,6 +34,11 @@ routes.post('/token', (req, res) => {
       error: { message: 'Password expected' } 
     });
   }
+
+  if (email.indexOf('@') === -1) {
+    username = email;
+    email = null;
+  } 
 
   const searchParam = !email ? { username } : { email };
   User.findOne(searchParam).then((user) => {
