@@ -31,5 +31,8 @@
     "sharp": "^0.23.0",
     "swagger-ui-express": "^4.0.1",
     "validator": "^10.5.0"
+  },
+  "devDependencies": {
+    "fsevents": "^2.1.2"
   }
 }
