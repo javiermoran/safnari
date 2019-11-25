@@ -9,7 +9,8 @@
   "scripts": {
     "prestart": "npm install",
     "start": "babel-node app/app.js",
-    "watch": "babel-watch app/app.js"
+    "watch": "babel-watch app/app.js",
+    "serve": "babel-watch app/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +25,7 @@
     "compression": "^1.7.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "fsevents": "^2.1.2",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.11",
     "mongoose": "^5.5.7",
@@ -31,8 +33,5 @@
     "sharp": "^0.23.0",
     "swagger-ui-express": "^4.0.1",
     "validator": "^10.5.0"
-  },
-  "devDependencies": {
-    "fsevents": "^2.1.2"
   }
 }

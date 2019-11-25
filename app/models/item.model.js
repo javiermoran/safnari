@@ -54,10 +54,10 @@ const ItemSchema = mongoose.Schema({
     type: [String],
     required: false
   },
-  tags: {
-    type: [mongoose.Schema.Types.ObjectId],
+  tags: [{
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Tag'
-  }
+  }]
 });
 
 ItemSchema.pre('save', function(next) {

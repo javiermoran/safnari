@@ -2,7 +2,8 @@
 
 import { Router } from 'express';
 import _ from 'lodash';
-import sharp from 'sharp'
+import sharp from 'sharp';
+import mongoose from 'mongoose';
 
 import Item from '../models/item.model';
 import auth from '../middleware/auth';
@@ -91,6 +92,7 @@ routes.get('/:id', [auth, validId], (req, res) => {
 
   Item.findOne({ _id, creator })
     .populate('type')
+    .populate('tags')
     .populate('coll')
     .then((item) => {
       res.send(item);
@@ -115,6 +117,31 @@ routes.patch('/:id', [auth, validId], (req, res) => {
   .catch((e) => {
     res.status(400).send()
   });
+});
+
+routes.post('/:id/tag', [auth, validId], (req, res) => {
+  const id = req.params.id;
+  const { tagId } = req.body;
+
+  if (!tagId) {
+    res.status(400).send({ error: "tagId missing" });
+  } else {
+    Item.findById(id)
+      .then(item => {
+        if (item.tags.find(tag => tag._id === tagId) === -1) {
+          item.tags.push(mongoose.Types.ObjectId(tagId));
+          item.save().then((result) => {
+            Item.findById(id)
+              .populate('tags')
+              .then(updatedItem => {
+                res.status(200).send(updatedItem);
+              })
+          });
+        } else {
+          res.status(400).send({ error: "Duplicated tag" });
+        }
+      });
+  }
 });
 
 routes.post('/:id/images', [auth, validId], (req, res) => {
