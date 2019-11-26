@@ -128,7 +128,7 @@ routes.post('/:id/tag', [auth, validId], (req, res) => {
   } else {
     Item.findById(id)
       .then(item => {
-        if (item.tags.find(tag => tag._id === tagId) === -1) {
+        if (!item.tags.includes(tagId)) {
           item.tags.push(mongoose.Types.ObjectId(tagId));
           item.save().then((result) => {
             Item.findById(id)
