@@ -31,6 +31,6 @@
     "resize-base64": "^1.0.12",
     "sharp": "^0.23.0",
     "swagger-ui-express": "^4.0.1",
-    "validator": "^10.5.0"
+    "validator": "^13.7.0"
   }
 }
